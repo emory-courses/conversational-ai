@@ -12,8 +12,8 @@ The main objectives of this course are:
 * To develop a dialogue system using methods in Computational Linguistics.
 * To comprehend the limitations of your dialogue system through Statistical Analysis.
 
-Students will have individual homework assignments and work in groups to build end-to-end dialogue systems of their choice. 
-Toward the end of the semester, all teams will present their dialogue systems with live demonstrations.
+Students will have individual assignments and work in groups to build end-to-end dialogue systems of their choice. 
+Toward the end of the semester, all teams will present the dialogue systems with live demonstrations.
 
 * [Syllabus](docs/syllabus.md)
 * [Schedule](docs/schedule.md)

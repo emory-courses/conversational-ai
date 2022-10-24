@@ -19,13 +19,13 @@
 | 03/01 |           (Continue)           |          |            |
 | 03/06 |        **Spring Break**        |          |            |
 | 03/08 |        **Spring Break**        |          |            |
-| 03/13 |           Inference            |          |            |
+| 03/13 |     Context Understanding      |          |            |
 | 03/15 |           (Continue)           |          |            |
 | 03/20 |           (Continue)           |          |   Quiz 5   |
-| 03/22 |             Topic              |          |            |
+| 03/22 |      Multi-hop Inference       |          |            |
 | 03/27 |           (Continue)           |          |            |
 | 03/29 |           (Continue)           |          |   Quiz 6   |
-| 04/03 |             Topic              |          |            |
+| 04/03 |    Conversational Analysis     |          |            |
 | 04/05 |           (Continue)           |          |            |
 | 04/10 |           (Continue)           |          |   Quiz 7   |
 | 04/12 |     Project Presentations      |          |            |
