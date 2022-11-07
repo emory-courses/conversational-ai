@@ -39,8 +39,8 @@
   * 02/08 (W): evening (60 mins), TBA
   * 03/14 (T): evening (60 mins), TBA
   * 04/24 (M): evening (75 mins), TBA
-* The first two meetings will be in small groups. These meetings will not replace our regular class hours.
-* For the third meeting, you will present your chatbot to students from both our and their courses. This meeting will replace our regular class hour.
+* The first two meetings, you will meet in small groups. These meetings will not replace our regular class hours.
+* For the third meeting, you will present your chatbot to LINC students. This meeting will replace our regular class hour on 04/24.
 
 ## Project Proposal
 
