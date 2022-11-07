@@ -40,7 +40,7 @@
     ```
     python -m pip install --upgrade pip
     ```
-  * Install the [Emora State Transitiona Dialogue Manager (STDM)](https://github.com/emora-chat/emora_stdm) with the following command:
+  * Install [Emora State Transitiona Dialogue Manager (STDM)](https://github.com/emora-chat/emora_stdm) with the following command:
     ```
     pip install emora_stdm
     ```
@@ -54,7 +54,7 @@
 
 * Create a package called [`src`](../../src/) under the `conversational-ai` directory. 
   > PyCharm may automatically create the [`__init__.py`](../../src/__init__.py) file under `src`, which is required for Python to treat the directory as a package, so leave the file as it is.
-* Create the [`quiz`](../src/quiz/) package under the `src` package.
+* Create the [`quiz`](../../src/quiz/) package under the `src` package.
 * Create a python file called [`quiz0.py`](../../src/quiz/quiz0.py) under the `quiz` package and copy the code.
   > If PyCharm prompts you to add `quiz0.py` to git, press `[Add]`.
   ```python
@@ -117,7 +117,10 @@
   * `.gitignore`
   > Once the files are added to git, they should turn into green. If not, restart PyCharm and try to add them again.
 * Commit and push your changes to GitHub:
-  * Right-click on `conversational-ai`, select `[Git] - [Commit Directory]`, enter a commit message (e.g., "Submit Quiz 0."), and press the `[Commit and Push]` button.
+  * Right-click on `conversational-ai`.
+  * Select `[Git] - [Commit Directory]`.
+  * Enter a commit message (e.g., _Submit Quiz 0_).
+  * Press the `[Commit and Push]` button.
   > Make sure you both `commit` and `push`, not just `commit`.
 * Check if the above files are properly pushed to your GitHub respoistory.
 * Submit the address of your repository (e.g., https://github.com/your_id/conversational-ai.git) to Canvas.

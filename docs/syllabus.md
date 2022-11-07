@@ -21,7 +21,7 @@
 ## Grading
 
 * 1 + 7 topical quizzes: 55%
-* 3 LINC exercises: 10%
+* 3 LINC discussions: 10%
 * Project proposal: 15%
 * Final project: 20%
 * Your work is governed by the [Emory Honor Code](http://catalog.college.emory.edu/academic/policies-regulations/honor-code.html). Honor code violation (e.g., copies from any source including your colleagues and internet sites) will be referred to the [Emory Honor Council](http://college.emory.edu/oue/current-students/honor-council.html).
@@ -33,9 +33,14 @@
 * Quizzes must be submitted individually. Discussions are allowed; however, your work must be original.
 * Late submissions within a week will be accepted with a grading penalty of 15%, and will not be accepted once the solutions are discussed in class.
 
-## LINC Exercises
+## LINC Discussions
 
-* TBA.  
+* You will meet with students from the **IDS 385W: Translation: Who, What, How** course three times this semester:
+  * 02/08 (W): evening (60 mins), TBA
+  * 03/14 (T): evening (60 mins), TBA
+  * 04/24 (M): evening (75 mins), TBA
+* The first two meetings will be in small groups. These meetings will not replace our regular class hours.
+* For the third meeting, you will present your chatbot to students from both our and their courses. This meeting will replace our regular class hour.
 
 ## Project Proposal
 

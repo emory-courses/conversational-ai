@@ -1,4 +1,4 @@
-Conversational AI
+CS/QTM/LING 329: Computational Linguistics
 =====
 
 Artificial Intelligence (AI) has advanced to the point that it starts interacting with humans in natural language.
@@ -18,7 +18,7 @@ Toward the end of the semester, all teams will present the dialogue systems with
 * [Syllabus](docs/syllabus.md)
 * [Schedule](docs/schedule.md)
 
-## Important Notice
+## LINC Course
 
 For Spring 2023, CS/QTM/LING 329 is selected as a [LINC (Learning through Inclusive Collaboration)](http://ila.emory.edu/initiatives/linc-courses/) course.
 Thus, it will include collaborative work with students taking **IDS 385W: Translation: Who, What, How**.
