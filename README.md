@@ -1,4 +1,4 @@
-CS/QTM/LING 329: Computational Linguistics
+Conversational AI
 =====
 
 Artificial Intelligence (AI) has advanced to the point that it starts interacting with humans in natural language.
