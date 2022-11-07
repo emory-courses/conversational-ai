@@ -7,7 +7,7 @@
 
 ## Git Repository
 
-* Login to [GitHub](https://github.com) (create an account if you do not have one). 
+* Login to [GitHub](https://github.com) (create an account if you do not have one).
 * Create a new repository called `conversational-ai` and make it **private**.
 * From the `[Settings]` menu, add the instructors as collaborators of this repository.
   * Jinho Choi: [`jdchoi77`](https://github.com/jdchoi77)
@@ -30,17 +30,21 @@
 * Setup the interpreter:
   * Go to `[Preferences] - [Project: conversational-ai] - [Project Interpreter]`.
   * Click `Add Interpreter` and select `Add Local Interpreter`.
-  * In the prompted window, choose `[Virtualenv Environment]` on the left menu, configure as follows then press `[OK]`:<br>
-    : Environment: `New`<br>
-    : Location: `LOCAL_PATH/conversational-ai/venv`<br>
-    : Base interpreter: `Python 3.11`
-* Upgrade [`pip`](https://pypi.org/project/pip/) (unless you have the latest version already):
+  * In the prompted window, choose `[Virtualenv Environment]` on the left menu, configure as follows then press `[OK]`:
+    - Environment: `New`
+    - Location: `LOCAL_PATH/conversational-ai/venv`
+    - Base interpreter: `Python 3.11`
+* Upgrade [`pip`](https://pypi.org/project/pip/) (if necessary):
   * Open a terminal by clicking `[Terminal]` at the bottom (or go to `[View] - [Terminal]`).
-  * Type the following in the terminal:<br>
+  * Type the following command in the terminal:<br>
     ```bash
     python -m pip install --upgrade pip
     ```
-* Install 
+* Install the Emora State Transitiona Dialogue Manager (STDM):
+  * Type the following command in the terminal:<br>
+    ```
+    pip install emora_stdm
+    ```
 
 ## Jupyter Notebook
 
