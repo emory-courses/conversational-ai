@@ -2,7 +2,7 @@
 
 | Date  |             Topic              | Resource | Assignment |
 |:-----:|:------------------------------:|:---------|:----------:|
-| 01/11 | [Getting Started](syllabus.md) |          |   Quiz 0   |
+| 01/11 | [Getting Started](syllabus.md) |          | [Quiz 0]() |
 | 01/16 |        **MLK Holiday**         |          |            |
 | 01/18 |          Introduction          |          |            |
 | 01/23 |           (Continue)           |          |   Quiz 1   |
