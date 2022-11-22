@@ -35,12 +35,12 @@
 
 ## LINC Discussions
 
-* You will meet with students from the **IDS 385W: Translation: Who, What, How** course three times this semester:
+* You will meet with students from [IDS 385W - Translation: Who, What, How](linc/syllabus-2023s.md) three times this semester:
   * 02/08 (W): evening (60 mins), TBA
   * 03/14 (T): evening (60 mins), TBA
   * 04/24 (M): evening (75 mins), TBA
-* The first two meetings, you will meet in small groups. These meetings will not replace our regular class hours.
-* For the third meeting, you will present your chatbot to LINC students. This meeting will replace our regular class hour on 04/24.
+* For the first two meetings, you will meet in small groups. These meetings will not replace our regular class hours.
+* For the third meeting, you will present your chatbot to LINC students. This meeting will replace our regular class hour.
 
 ## Project Proposal
 
