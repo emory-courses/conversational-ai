@@ -35,7 +35,7 @@
 
 ## LINC Discussions
 
-* You will meet with students from [IDS 385W - Translation: Who, What, How](linc/syllabus-2023s.md) three times this semester:
+* You will meet with students from [IDS 385W - Translation: Who, What, How](syllabus/2023S-IDS385W.md) three times this semester:
   * 02/08 (W): evening (60 mins), TBA
   * 03/14 (T): evening (60 mins), TBA
   * 04/24 (M): evening (75 mins), TBA

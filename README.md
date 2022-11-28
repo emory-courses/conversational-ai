@@ -21,5 +21,5 @@ Toward the end of the semester, all teams will present the dialogue systems with
 ## LINC Course
 
 For Spring 2023, this course is selected as a [LINC (Learning through Inclusive Collaboration)](http://ila.emory.edu/initiatives/linc-courses/) course.
-Thus, it will include collaborative work with students taking [IDS 385W - Translation: Who, What, How](docs/linc/syllabus-2023s.md).
+Thus, it will include collaborative work with students taking [IDS 385W - Translation: Who, What, How](docs/syllabus/2023S-IDS385W.md).
  

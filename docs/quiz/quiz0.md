@@ -11,7 +11,7 @@
   ```python
   from emora_stdm import DialogueFlow
 
-  chatbot = DialogueFlow('start')
+  df = DialogueFlow('start')
   transitions = {
       'state': 'start',
       '"Hello. How are you?"': {
@@ -32,9 +32,8 @@
       }
   }
 
-  if __name__ == '__main__':
-      chatbot.load_transitions(transitions)
-      chatbot.run()
+  df.load_transitions(transitions)
+  df.run()
   ```
 * Run `quiz0` by clicking `[Run] - [Run 'quiz0']`.
 * Conduct the following two dialogues with the chatbot you just created (`S`: system, `U`: user):

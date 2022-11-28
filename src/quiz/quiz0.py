@@ -17,7 +17,7 @@ __author__ = 'Jinho D. Choi'
 
 from emora_stdm import DialogueFlow
 
-chatbot = DialogueFlow('start')
+df = DialogueFlow('start')
 transitions = {
     'state': 'start',
     '"Hello. How are you?"': {
@@ -38,6 +38,5 @@ transitions = {
     }
 }
 
-if __name__ == '__main__':
-    chatbot.load_transitions(transitions)
-    chatbot.run()
+df.load_transitions(transitions)
+df.run()
