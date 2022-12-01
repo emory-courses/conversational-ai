@@ -1,4 +1,4 @@
-CS/QTM/LING 329 - Computational Linguistics
+Conversational AI Design and Practice
 =====
 
-Course Website: https://emory.gitbook.io/conversational-ai/
+https://emory.gitbook.io/conversational-ai/
