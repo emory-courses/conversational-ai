@@ -17,11 +17,10 @@ __author__ = 'Jinho D. Choi'
 
 from emora_stdm import DialogueFlow
 
-df = DialogueFlow('start', end_state='end')
 transitions = {
     'state': 'start',
     '`Hello. How are you?`': {
-        '[{fine, good, fantastic}]': {
+        '[{good, fantastic}]': {
             '`Glad to hear that you are doing well :)`': {
                 'error': {
                     '`See you later!`': 'end'
@@ -38,5 +37,6 @@ transitions = {
     }
 }
 
+df = DialogueFlow('start', end_state='end')
 df.load_transitions(transitions)
 df.run()
