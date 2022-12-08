@@ -39,4 +39,6 @@ transitions = {
 
 df = DialogueFlow('start', end_state='end')
 df.load_transitions(transitions)
-df.run()
+
+if __name__ == '__main__':
+    df.run()
