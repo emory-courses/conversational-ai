@@ -47,13 +47,22 @@ def literal() -> Dict[str, Any]:
 
 transitions = {
     'state': 'start',
-    '`Hello. How are you?`': {
-        '{good, not bad}': {
+    '`Hello. How are you?`': {      # literal
+        'could be better': {        # string
+            '`I hope your day gets better soon :(`': 'end'
+        },
+        '{good, not bad}': {        # set
             '`Glad to hear that you are doing well :)`': 'end'
+        },
+        '<very, good>': {           # unordered list
+            '`So glad that you are having a great day!`': 'end'
+        },
+        '[so, good]': {             # ordered list (sequence)
+            '`Things are just getting better for you!`': 'end'
         },
         'error': {
             '`Sorry, I didn\'t understand you.`': 'end'
-        },
+        }
     }
 }
 
