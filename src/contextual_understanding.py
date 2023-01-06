@@ -60,6 +60,9 @@ transitions = {
         '[so, good]': {             # ordered list (sequence)
             '`Things are just getting better for you!`': 'end'
         },
+        '/(fantastic|terrific)/': {             # ordered list (sequence)
+            '`Nothing like an awesome day!`': 'end'
+        },
         'error': {
             '`Sorry, I didn\'t understand you.`': 'end'
         }

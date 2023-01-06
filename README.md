@@ -1,4 +1,4 @@
 Conversational AI Design and Practice
 =====
 
-https://emory.gitbook.io/conversational-ai/
+Textbook: https://emory.gitbook.io/conversational-ai/

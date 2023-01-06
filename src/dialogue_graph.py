@@ -21,7 +21,7 @@ from typing import Dict, Any
 from emora_stdm import DialogueFlow
 
 
-def state_transitions() -> Dict[str, Any]:
+def state_transition() -> Dict[str, Any]:
     return {
         'state': 'start',
         '`Hello. How are you?`': {
@@ -38,7 +38,7 @@ def state_transitions() -> Dict[str, Any]:
     }
 
 
-def matching_strategies() -> Dict[str, Any]:
+def matching_strategy() -> Dict[str, Any]:
     return {
         'state': 'start',
         '`Hello. How are you?`': {
@@ -58,9 +58,31 @@ def matching_strategies() -> Dict[str, Any]:
     }
 
 
+def multiturn_dialogue() -> Dict[str, Any]:
+    return {
+        'state': 'start',
+        '`Hello. How are you?`': {
+            '[{good, fantastic}]': {
+                '`Glad to hear that you are doing well :)`': {
+                    '[{how, and}, {you, going}]': {
+                        '`I feel superb. Thank you!`': 'end'
+                    },
+                    'error': {
+                        '`You are the best!`': 'end'
+                    }
+                }
+            },
+            'error': {
+                '`Got it; thanks for sharing.`': 'end'
+            },
+        }
+    }
+
+
 df = DialogueFlow('start', end_state='end')
 # df.load_transitions(state_transitions())
-df.load_transitions(matching_strategies())
+# df.load_transitions(matching_strategies())
+df.load_transitions(multiturn_dialogue())
 
 if __name__ == '__main__':
     df.run()
