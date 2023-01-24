@@ -80,9 +80,9 @@ def multiturn_dialogue() -> Dict[str, Any]:
 
 
 df = DialogueFlow('start', end_state='end')
-# df.load_transitions(state_transitions())
-# df.load_transitions(matching_strategies())
-df.load_transitions(multiturn_dialogue())
+df.load_transitions(state_transition())
+# df.load_transitions(matching_strategy())
+# df.load_transitions(multiturn_dialogue())
 
 if __name__ == '__main__':
     df.run()
