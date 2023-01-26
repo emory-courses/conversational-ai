@@ -22,8 +22,8 @@ from typing import Dict, Any
 from emora_stdm import DialogueFlow
 
 
-def natex_matching() -> Dict[str, Any]:
-    return {
+def natex_matching() -> DialogueFlow:
+    transitions = {
         'state': 'start',
         '`Hello. How are you?`': {  # literal
             'could be better': {  # term
@@ -50,9 +50,13 @@ def natex_matching() -> Dict[str, Any]:
         }
     }
 
+    df = DialogueFlow('start', end_state='end')
+    df.load_transitions(transitions)
+    return df
 
-def natex_nesting() -> Dict[str, Any]:
-    return {
+
+def natex_nesting() -> DialogueFlow:
+    transitions = {
         'state': 'start',
         '`Hello. How are you?`': {
             '{[{so, very} good], [fantastic]}': {
@@ -64,9 +68,13 @@ def natex_nesting() -> Dict[str, Any]:
         }
     }
 
+    df = DialogueFlow('start', end_state='end')
+    df.load_transitions(transitions)
+    return df
 
-def natex_regex() -> Dict[str, Any]:
-    return {
+
+def natex_regex() -> DialogueFlow:
+    transitions = {
         'state': 'start',
         '`Hello. How are you?`': {
             '[/((?:so|very) good|fantastic)/]': {
@@ -78,13 +86,9 @@ def natex_regex() -> Dict[str, Any]:
         }
     }
 
-
-def natex_run():
     df = DialogueFlow('start', end_state='end')
-    # df.load_transitions(natex_matching())
-    # df.load_transitions(natex_nesting())
-    df.load_transitions(natex_regex())
-    df.run()
+    df.load_transitions(transitions)
+    return df
 
 
 def regex():
@@ -139,5 +143,7 @@ def regex():
 
 
 if __name__ == '__main__':
-    natex_run()
+    natex_matching().run()
+    # natex_nesting().run()
+    # natex_regex().run()
     # regex()

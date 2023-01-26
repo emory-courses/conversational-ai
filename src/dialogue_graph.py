@@ -16,13 +16,11 @@
 
 __author__ = 'Jinho D. Choi'
 
-from typing import Dict, Any
-
 from emora_stdm import DialogueFlow
 
 
-def state_transition() -> Dict[str, Any]:
-    return {
+def state_transition() -> DialogueFlow:
+    transitions = {
         'state': 'start',
         '`Hello. How are you?`': {
             'good': {
@@ -37,9 +35,13 @@ def state_transition() -> Dict[str, Any]:
         }
     }
 
+    df = DialogueFlow('start', end_state='end')
+    df.load_transitions(transitions)
+    return df
 
-def matching_strategy() -> Dict[str, Any]:
-    return {
+
+def matching_strategy() -> DialogueFlow:
+    transitions = {
         'state': 'start',
         '`Hello. How are you?`': {
             '[{good, fantastic}]': {
@@ -57,9 +59,13 @@ def matching_strategy() -> Dict[str, Any]:
         }
     }
 
+    df = DialogueFlow('start', end_state='end')
+    df.load_transitions(transitions)
+    return df
 
-def multiturn_dialogue() -> Dict[str, Any]:
-    return {
+
+def multiturn_dialogue() -> DialogueFlow:
+    transitions = {
         'state': 'start',
         '`Hello. How are you?`': {
             '[{good, fantastic}]': {
@@ -78,11 +84,12 @@ def multiturn_dialogue() -> Dict[str, Any]:
         }
     }
 
+    df = DialogueFlow('start', end_state='end')
+    df.load_transitions(transitions)
+    return df
 
-df = DialogueFlow('start', end_state='end')
-df.load_transitions(state_transition())
-# df.load_transitions(matching_strategy())
-# df.load_transitions(multiturn_dialogue())
 
 if __name__ == '__main__':
-    df.run()
+    state_transition().run()
+    # matching_strategy().run()
+    # multiturn_dialogue().run()
