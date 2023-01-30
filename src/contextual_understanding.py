@@ -17,7 +17,6 @@
 __author__ = 'Jinho D. Choi'
 
 import re
-from typing import Dict, Any
 
 from emora_stdm import DialogueFlow
 
@@ -60,24 +59,6 @@ def natex_nesting() -> DialogueFlow:
         'state': 'start',
         '`Hello. How are you?`': {
             '{[{so, very} good], [fantastic]}': {
-                '`Things are just getting better for you!`': 'end'
-            },
-            'error': {
-                '`Sorry, I didn\'t understand you.`': 'end'
-            }
-        }
-    }
-
-    df = DialogueFlow('start', end_state='end')
-    df.load_transitions(transitions)
-    return df
-
-
-def natex_regex() -> DialogueFlow:
-    transitions = {
-        'state': 'start',
-        '`Hello. How are you?`': {
-            '[/((?:so|very) good|fantastic)/]': {
                 '`Things are just getting better for you!`': 'end'
             },
             'error': {
@@ -142,8 +123,51 @@ def regex():
         ms.append(m)
 
 
+def natex_regex() -> DialogueFlow:
+    transitions = {
+        'state': 'start',
+        '`Hello. How are you?`': {
+            '[/((?:so|very) good|fantastic)/]': {
+                '`Things are just getting better for you!`': 'end'
+            },
+            'error': {
+                '`Sorry, I didn\'t understand you.`': 'end'
+            }
+        }
+    }
+
+    df = DialogueFlow('start', end_state='end')
+    df.load_transitions(transitions)
+    return df
+
+
+def natex_ontology() -> DialogueFlow:
+    transitions = {
+        'state': 'start',
+        '`What is your favorite animal?`': {
+            '["dog", "ape", "rat"]': {
+                '`Things are just getting better for you!`': 'end'
+            },
+            '["dog", "ape", "rat"]': {
+                '`Things are just getting better for you!`': 'end'
+            },
+            '["dog", "ape", "rat"]': {
+                '`Things are just getting better for you!`': 'end'
+            },
+            'error': {
+                '`Sorry, I didn\'t understand you.`': 'end'
+            }
+        }
+    }
+
+    df = DialogueFlow('start', end_state='end')
+    df.load_transitions(transitions)
+    return df
+
+
 if __name__ == '__main__':
-    natex_matching().run()
+    # natex_matching().run()
     # natex_nesting().run()
-    # natex_regex().run()
     # regex()
+    # natex_regex().run()
+    natex_ontology().run()
