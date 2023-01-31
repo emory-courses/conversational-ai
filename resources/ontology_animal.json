@@ -3,8 +3,8 @@
         "animal": ["mammal", "fish", "bird", "reptile", "amphibian"],
         "mammal": ["dog", "ape", "rat"],
         "reptile": ["snake", "lizard"],
-        "amphibian": ["frog"],
-        "dog": ["german shepard", "poodle"]
+        "amphibian": ["frog", "salamander"],
+        "dog": ["golden retriever", "poodle", "canine", "puppy"]
     },
 
     "expressions": {

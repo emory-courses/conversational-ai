@@ -141,21 +141,21 @@ def natex_regex() -> DialogueFlow:
     return df
 
 
-def natex_ontology() -> DialogueFlow:
+def natex_ontology1() -> DialogueFlow:
     transitions = {
         'state': 'start',
         '`What is your favorite animal?`': {
-            '["dog", "ape", "rat"]': {
-                '`Things are just getting better for you!`': 'end'
+            '[{dog, ape, rat}]': {
+                '`I love mammals!`': 'end'
             },
-            '["dog", "ape", "rat"]': {
-                '`Things are just getting better for you!`': 'end'
+            '[{snake, lizard}]': {
+                '`Reptiles are slick, haha`': 'end'
             },
-            '["dog", "ape", "rat"]': {
-                '`Things are just getting better for you!`': 'end'
+            '[{frog, salamander}]': {
+                '`Amphibians can be cute :)`': 'end'
             },
             'error': {
-                '`Sorry, I didn\'t understand you.`': 'end'
+                '`I\'ve never heard of that animal.`': 'end'
             }
         }
     }
@@ -165,9 +165,37 @@ def natex_ontology() -> DialogueFlow:
     return df
 
 
+def natex_ontology2() -> DialogueFlow:
+    transitions = {
+        'state': 'start',
+        '`What is your favorite animal?`': {
+            '[#ONT(mammal)]': {
+                '`I love mammals!`': 'end'
+            },
+            '[#ONT(reptile)]': {
+                '`Reptiles are slick, haha`': 'end'
+            },
+            '[#ONT(amphibian)]': {
+                '`Amphibians can be cute :)`': 'end'
+            },
+            '[#ONT(chiroptera)]': {
+                '`Batman~~~`': 'end'
+            },
+            'error': {
+                '`I\'ve never heard of that animal.`': 'end'
+            }
+        }
+    }
+
+    df = DialogueFlow('start', end_state='end')
+    df.knowledge_base().load_json_file('resources/ontology_animal.json')
+    df.load_transitions(transitions)
+    return df
+
 if __name__ == '__main__':
     # natex_matching().run()
     # natex_nesting().run()
     # regex()
     # natex_regex().run()
-    natex_ontology().run()
+    # natex_ontology1().run()
+    natex_ontology2().run()
