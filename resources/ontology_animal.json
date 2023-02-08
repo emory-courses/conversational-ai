@@ -4,7 +4,7 @@
         "mammal": ["dog", "ape", "rat"],
         "reptile": ["snake", "lizard"],
         "amphibian": ["frog", "salamander"],
-        "dog": ["golden retriever", "poodle", "canine", "puppy"]
+        "dog": ["golden retriever", "poodle"]
     },
 
     "expressions": {

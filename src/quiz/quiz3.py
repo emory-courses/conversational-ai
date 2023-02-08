@@ -19,13 +19,17 @@ from emora_stdm import DialogueFlow
 
 transitions = {
     'state': 'start',
-    '`Hello, how can I help you?`': {
-        # TODO: to be filled.
-    }
+    # TODO: to be filled.
+}
+
+macros = {
+    # TODO: to be filled.
 }
 
 df = DialogueFlow('start', end_state='end')
 df.load_transitions(transitions)
+df.knowledge_base().load_json_file('resources/ontology_quiz3.json')
+df.add_macros(macros)
 
 if __name__ == '__main__':
     df.run()

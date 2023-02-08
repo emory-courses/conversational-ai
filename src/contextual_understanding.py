@@ -17,8 +17,9 @@
 __author__ = 'Jinho D. Choi'
 
 import re
+from typing import Dict, Any, List
 
-from emora_stdm import DialogueFlow
+from emora_stdm import DialogueFlow, Macro, Ngrams
 
 
 def natex_matching() -> DialogueFlow:
@@ -68,6 +69,98 @@ def natex_nesting() -> DialogueFlow:
     }
 
     df = DialogueFlow('start', end_state='end')
+    df.load_transitions(transitions)
+    return df
+
+
+def natex_variable() -> DialogueFlow:
+    transitions = {
+        'state': 'start',
+        '`What is your favorite animal?`': {
+            '[$FAVORITE_ANIMAL={dogs, cats, hamsters}]': {
+                '`I like` $FAVORITE_ANIMAL `too!`': 'end'
+            },
+            'error': {
+                '`I\'ve never heard of that animal.`': 'end'
+            }
+        }
+    }
+
+    df = DialogueFlow('start', end_state='end')
+    df.load_transitions(transitions)
+    return df
+
+
+def natex_ontology1() -> DialogueFlow:
+    transitions = {
+        'state': 'start',
+        '`What is your favorite animal?`': {
+            '[{dog, ape, rat}]': {
+                '`I love mammals!`': 'end'
+            },
+            '[{snake, lizard}]': {
+                '`Reptiles are slick, haha`': 'end'
+            },
+            '[{frog, salamander}]': {
+                '`Amphibians can be cute :)`': 'end'
+            },
+            'error': {
+                '`I\'ve never heard of that animal.`': 'end'
+            }
+        }
+    }
+
+    df = DialogueFlow('start', end_state='end')
+    df.load_transitions(transitions)
+    return df
+
+
+def natex_ontology2() -> DialogueFlow:
+    transitions = {
+        'state': 'start',
+        '`What is your favorite animal?`': {
+            '[#ONT(mammal)]': {
+                '`I love mammals!`': 'end'
+            },
+            '[#ONT(reptile)]': {
+                '`Reptiles are slick, haha`': 'end'
+            },
+            '[#ONT(amphibian)]': {
+                '`Amphibians can be cute :)`': 'end'
+            },
+            'error': {
+                '`I\'ve never heard of that animal.`': 'end'
+            }
+        }
+    }
+
+    df = DialogueFlow('start', end_state='end')
+    df.knowledge_base().load_json_file('resources/ontology_animal.json')
+    df.load_transitions(transitions)
+    return df
+
+
+def natex_ontology3() -> DialogueFlow:
+    transitions = {
+        'state': 'start',
+        '`What is your favorite animal?`': {
+            '[$FAVORITE_ANIMAL=#ONT(mammal)]': {
+                '`I love` $FAVORITE_ANIMAL `!`': 'end'
+            },
+            '[$FAVORITE_ANIMAL=#ONT(reptile)]': {
+                '$FAVORITE_ANIMAL `are slick, haha`': 'end'
+            },
+            '[$FAVORITE_ANIMAL=#ONT(amphibian)]': {
+                '$FAVORITE_ANIMAL `can be cute :)`': 'end'
+            },
+            'error': {
+                '`I\'ve never heard of that animal.`': 'end'
+            }
+        }
+    }
+
+    df = DialogueFlow('start', end_state='end')
+    df.knowledge_base().load_json_file('resources/ontology_animal.json')
     df.load_transitions(transitions)
     return df
 
@@ -123,7 +216,7 @@ def regex():
         ms.append(m)
 
 
-def natex_regex() -> DialogueFlow:
+def regex_natex() -> DialogueFlow:
     transitions = {
         'state': 'start',
         '`Hello. How are you?`': {
@@ -141,21 +234,15 @@ def natex_regex() -> DialogueFlow:
     return df
 
 
-def natex_ontology1() -> DialogueFlow:
+def regex_natex_variable() -> DialogueFlow:
     transitions = {
         'state': 'start',
-        '`What is your favorite animal?`': {
-            '[{dog, ape, rat}]': {
-                '`I love mammals!`': 'end'
-            },
-            '[{snake, lizard}]': {
-                '`Reptiles are slick, haha`': 'end'
-            },
-            '[{frog, salamander}]': {
-                '`Amphibians can be cute :)`': 'end'
+        '`Hello. What should I call you?`': {
+            '[/(?<FIRSTNAME>[a-z]+) (?<LASTNAME>[a-z]+)/]': {
+                '`It\'s nice to meet you,` $FIRSTNAME `. I know several other` $LASTNAME `.`': 'end'
             },
             'error': {
-                '`I\'ve never heard of that animal.`': 'end'
+                '`Sorry, I didn\'t understand you.`': 'end'
             }
         }
     }
@@ -165,37 +252,64 @@ def natex_ontology1() -> DialogueFlow:
     return df
 
 
-def natex_ontology2() -> DialogueFlow:
+class MacroGetName(Macro):
+    def run(self, ngrams: Ngrams, vars: Dict[str, Any], args: List[Any]):
+        r = re.compile(r"(mr|mrs|ms|dr)?(?:^|\s)([a-z']+)(?:\s([a-z']+))?")
+        m = r.search(ngrams.text())
+        if m is None: return False
+
+        title, firstname, lastname = None, None, None
+
+        if m.group(1):
+            title = m.group(1)
+            if m.group(3):
+                firstname = m.group(2)
+                lastname = m.group(3)
+            else:
+                firstname = m.group()
+                lastname = m.group(2)
+        else:
+            firstname = m.group(2)
+            lastname = m.group(3)
+
+        vars['TITLE'] = title
+        vars['FIRSTNAME'] = firstname
+        vars['LASTNAME'] = lastname
+
+        return True
+
+
+def macro() -> DialogueFlow:
     transitions = {
         'state': 'start',
-        '`What is your favorite animal?`': {
-            '[#ONT(mammal)]': {
-                '`I love mammals!`': 'end'
-            },
-            '[#ONT(reptile)]': {
-                '`Reptiles are slick, haha`': 'end'
-            },
-            '[#ONT(amphibian)]': {
-                '`Amphibians can be cute :)`': 'end'
-            },
-            '[#ONT(chiroptera)]': {
-                '`Batman~~~`': 'end'
+        '`Hello. What should I call you?`': {
+            '#GET_NAME': {
+                '`It\'s nice to meet you,` $FIRSTNAME `.` $LASTNAME `is my favorite name.`': 'end'
             },
             'error': {
-                '`I\'ve never heard of that animal.`': 'end'
+                '`Sorry, I didn\'t understand you.`': 'end'
             }
         }
     }
 
+    macros = {
+        'GET_NAME': MacroGetName()
+    }
+
     df = DialogueFlow('start', end_state='end')
-    df.knowledge_base().load_json_file('resources/ontology_animal.json')
     df.load_transitions(transitions)
+    df.add_macros(macros)
     return df
+
 
 if __name__ == '__main__':
     # natex_matching().run()
     # natex_nesting().run()
-    # regex()
-    # natex_regex().run()
+    # natex_variable().run()
     # natex_ontology1().run()
-    natex_ontology2().run()
+    # natex_ontology2().run()
+    # natex_ontology3().run()
+    # regex()
+    # regex_natex().run()
+    # regex_natex_variable().run()
+    macro().run()
