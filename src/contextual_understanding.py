@@ -303,7 +303,7 @@ def macro() -> DialogueFlow:
 
 
 if __name__ == '__main__':
-    # natex_matching().run()
+    natex_matching().run()
     # natex_nesting().run()
     # natex_variable().run()
     # natex_ontology1().run()
@@ -312,4 +312,4 @@ if __name__ == '__main__':
     # regex()
     # regex_natex().run()
     # regex_natex_variable().run()
-    macro().run()
+    # macro().run()
