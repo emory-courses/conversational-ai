@@ -16,11 +16,12 @@
 
 __author__ = 'Jinho D. Choi'
 
-import vlc
 import json
+import time
 from typing import Dict, Any, List
 
 import requests
+import vlc
 from emora_stdm import DialogueFlow, Macro, Ngrams
 
 
@@ -62,7 +63,15 @@ def advanced_macro() -> DialogueFlow:
             '[play, [!{#LEM(rain), rainy}, #LEM(taco)]]': {
                 'state': 'play_raining_tacos',
                 '#IF($RAINING_TACOS) `Don\'t make me sing this again!`': 'start',
-                '#IF(#RAINING_TACOS_FIRST) `It\'s raining tacos. From out of the sky ...` #PLAY_RAINING_TACOS #SETBOOL(RAINING_TACOS, True)': 'start',
+                '#IF(#PLAY_RAINING_TACOS) `It\'s raining tacos. From out of the sky ...` #SETBOOL(RAINING_TACOS, True)': 'start',
+            },
+            '[{time, clock}]': {
+                'state': 'time',
+                '#TIME': 'end'
+            },
+            '[{weather, forecast}]': {
+                'state': 'weather',
+                '#WEATHER': 'end'
             },
             '#UNX': {
                 '`Thanks for sharing.`': 'start'
@@ -72,8 +81,9 @@ def advanced_macro() -> DialogueFlow:
 
     macros = {
         'SETBOOL': MacroSetBool(),
-        'RAINING_TACOS_FIRST': MacroRainingTacosFirst(),
-        'PLAY_RAINING_TACOS': MacroPlayRainingTacos()
+        'PLAY_RAINING_TACOS': MacroPlayRainingTacos(),
+        'TIME': MacroTime(),
+        'WEATHER': MacroWeather()
     }
 
     df = DialogueFlow('start', end_state='end')
@@ -99,59 +109,28 @@ class MacroSetBool(Macro):
         return True
 
 
-class MacroRainingTacosFirst(Macro):
-    def run(self, ngrams: Ngrams, vars: Dict[str, Any], args: List[str]):
-        return not vars.get('RAINING_TACOS')
-
-
 class MacroPlayRainingTacos(Macro):
-    def run(self, ngrams: Ngrams, vars: Dict[str, Any], args: List[Any]):
-        p = vlc.MediaPlayer("resources/raining_tacos.mp3")
-        p.play()
+    def run(self, ngrams: Ngrams, vars: Dict[str, Any], args: List[str]):
+        if not vars.get('RAINING_TACOS', False):
+            vlc.MediaPlayer("resources/raining_tacos.mp3").play()
+            return True
+        return False
+
+
+class MacroTime(Macro):
+    def run(self, ngrams: Ngrams, vars: Dict[str, Any], args: List[str]):
+        current_time = time.strftime('%H:%M')
+        return "It's currently {}.".format(current_time)
+
 
 class MacroWeather(Macro):
     def run(self, ngrams: Ngrams, vars: Dict[str, Any], args: List[Any]):
-        terms = ['weather', 'forecast']
-        if not any(term for term in terms if term in ngrams):
-            return False
-
         url = 'https://api.weather.gov/gridpoints/FFC/52,88/forecast'
         r = requests.get(url)
         d = json.loads(r.text)
         periods = d['properties']['periods']
         today = periods[0]
-
-        vars['REQUESTED_WEATHER'] = today['detailedForecast']
-        return True
-
-
-class MacroGenerate(Macro):
-    def run(self, ngrams: Ngrams, vars: Dict[str, Any], args: List[Any]):
-        return False
-
-
-def weather() -> DialogueFlow:
-    macros = {
-        'WEATHER': MacroWeather(),
-        'HELLO': MacroGenerate()
-    }
-
-    transitions = {
-        'state': 'start',
-        '`Hello. What can I do for you?`': {
-            '#WEATHER': {
-                '$REQUESTED_WEATHER': 'start'
-            },
-            'error': {
-                '#HELLO($REQUESTED_WEATHER)`': 'end'
-            }
-        }
-    }
-
-    df = DialogueFlow('start', end_state='end')
-    df.load_transitions(transitions)
-    df.add_macros(macros)
-    return df
+        return today['detailedForecast']
 
 
 if __name__ == '__main__':
