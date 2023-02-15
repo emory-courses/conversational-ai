@@ -16,6 +16,7 @@
 
 __author__ = 'Jinho D. Choi'
 
+import vlc
 import json
 from typing import Dict, Any, List
 
@@ -54,6 +55,60 @@ def state_reference() -> DialogueFlow:
     return df
 
 
+def advanced_macro() -> DialogueFlow:
+    transitions = {
+        'state': 'start',
+        '`What can I do for you?`': {
+            '[play, [!{#LEM(rain), rainy}, #LEM(taco)]]': {
+                'state': 'play_raining_tacos',
+                '#IF($RAINING_TACOS) `Don\'t make me sing this again!`': 'start',
+                '#IF(#RAINING_TACOS_FIRST) `It\'s raining tacos. From out of the sky ...` #PLAY_RAINING_TACOS #SETBOOL(RAINING_TACOS, True)': 'start',
+            },
+            '#UNX': {
+                '`Thanks for sharing.`': 'start'
+            },
+        }
+    }
+
+    macros = {
+        'SETBOOL': MacroSetBool(),
+        'RAINING_TACOS_FIRST': MacroRainingTacosFirst(),
+        'PLAY_RAINING_TACOS': MacroPlayRainingTacos()
+    }
+
+    df = DialogueFlow('start', end_state='end')
+    df.load_transitions(transitions)
+    df.add_macros(macros)
+    return df
+
+
+class MacroSetBool(Macro):
+    def run(self, ngrams: Ngrams, vars: Dict[str, Any], args: List[str]):
+        if len(args) != 2:
+            return False
+
+        variable = args[0]
+        if variable[0] == '$':
+            variable = variable[1:]
+
+        boolean = args[1].lower()
+        if boolean not in {'true', 'false'}:
+            return False
+
+        vars[variable] = bool(boolean)
+        return True
+
+
+class MacroRainingTacosFirst(Macro):
+    def run(self, ngrams: Ngrams, vars: Dict[str, Any], args: List[str]):
+        return not vars.get('RAINING_TACOS')
+
+
+class MacroPlayRainingTacos(Macro):
+    def run(self, ngrams: Ngrams, vars: Dict[str, Any], args: List[Any]):
+        p = vlc.MediaPlayer("resources/raining_tacos.mp3")
+        p.play()
+
 class MacroWeather(Macro):
     def run(self, ngrams: Ngrams, vars: Dict[str, Any], args: List[Any]):
         terms = ['weather', 'forecast']
@@ -70,70 +125,9 @@ class MacroWeather(Macro):
         return True
 
 
-def advanced_macro() -> DialogueFlow:
-    transitions = {
-        'state': 'start',
-        '`What can I do for you?`': {
-            '[{time, clock}]': {
-                'state': 'time',
-                '`It\'s 3PM.`': 'start'
-            },
-            '[{weather, forecast}]': {
-                'state': 'weather',
-                '`It\'s sunny outside`': 'start'
-            },
-            '[play, raining tacos]': {
-                'state': 'play_raining_tacos',
-                '`It\'s raining tacos. From out of the sky ...`': 'start'
-            },
-            'error': {
-                '`Sorry, I didn\'t understand you.`': 'start'
-            },
-            '[exit]': {
-                'state': 'exit',
-                '`Good bye!`': 'end'
-            }
-        }
-    }
-
-    macros = {
-        'WEATHER': MacroWeather(),
-        'HELLO': MacroGenerate()
-    }
-
-    df = DialogueFlow('start', end_state='end')
-    df.load_transitions(transitions)
-    df.add_macros(macros)
-    return df
-
-
-def state_reference4() -> DialogueFlow:
-    transitions = {
-        'state': 'start',
-        '`Hello. What can I do for you?`': {
-            '[{time, clock}]': {
-                '`It\'s 3PM.`': 'end'
-            },
-            '[{weather, forecast}]': {
-                '`It\'s sunny outside`': 'end'
-            },
-            '[play, [!{#LEM(rain), rainy}, #LEM(taco)]]': {
-                '`It\'s raining tacos. From out of the sky ...`': 'end'
-            },
-            'error': {
-                '`Sorry, I didn\'t understand you.`': 'end'
-            }
-        }
-    }
-
-    df = DialogueFlow('start', end_state='end')
-    df.load_transitions(transitions)
-    return df
-
-
 class MacroGenerate(Macro):
     def run(self, ngrams: Ngrams, vars: Dict[str, Any], args: List[Any]):
-        return 'Hello World ' + args[0]
+        return False
 
 
 def weather() -> DialogueFlow:
@@ -161,4 +155,5 @@ def weather() -> DialogueFlow:
 
 
 if __name__ == '__main__':
-    state_reference().run()
+    # state_reference().run()
+    advanced_macro().run()
