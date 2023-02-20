@@ -17,6 +17,7 @@
 __author__ = 'Jinho D. Choi'
 
 import json
+import pickle
 import time
 from typing import Dict, Any, List
 
@@ -242,8 +243,57 @@ class MacroWhatElse(Macro):
             return 'What do you want to talk about?'
 
 
+class MacroVisits(Macro):
+    def run(self, ngrams: Ngrams, vars: Dict[str, Any], args: List[Any]):
+        vn = 'VISITS'
+        if vn not in vars:
+            vars[vn] = 1
+            return 'first'
+        else:
+            count = vars[vn] + 1
+            vars[vn] = count
+            match count:
+                case 2:
+                    return 'second'
+                case 3:
+                    return 'third'
+                case default:
+                    return '{}th'.format(count)
+
+
+def visits() -> DialogueFlow:
+    transitions = {
+        'state': 'start',
+        '`It\'s your` #VISITS `visit!`': 'end'
+    }
+
+    macros = {
+        'VISITS': MacroVisits()
+    }
+
+    df = DialogueFlow('start', end_state='end')
+    df.load_transitions(transitions)
+    df.add_macros(macros)
+    return df
+
+
+def save(df: DialogueFlow, varfile: str):
+    df.run()
+    d = {k: v for k, v in df.vars().items() if not k.startswith('_')}
+    pickle.dump(d, open(varfile, 'wb'))
+
+
+def load(df: DialogueFlow, varfile: str):
+    d = pickle.load(open(varfile, 'rb'))
+    df.vars().update(d)
+    df.run()
+    save(df, varfile)
+
+
 if __name__ == '__main__':
-    # state_reference().run()
+    state_reference().run()
     # advanced_interaction().run()
     # compound_states().run()
-    global_transition().run()
+    # global_transition().run()
+    # save(visits(), 'resources/visits.pkl')
+    # load(visits(), 'resources/visits.pkl')
