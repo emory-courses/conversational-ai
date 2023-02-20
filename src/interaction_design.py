@@ -56,7 +56,7 @@ def state_reference() -> DialogueFlow:
     return df
 
 
-def advanced_macro() -> DialogueFlow:
+def advanced_interaction() -> DialogueFlow:
     transitions = {
         'state': 'start',
         '`What can I do for you?`': {
@@ -133,6 +133,117 @@ class MacroWeather(Macro):
         return today['detailedForecast']
 
 
+def compound_states() -> DialogueFlow:
+    transitions = {
+        'state': 'start',
+        '#GATE `Let\'s talk about music.`': 'music',
+        '#GATE `Let\'s talk about movies.`': 'movie',
+        '`That\'s all I can talk about.`': {
+            'state': 'end',
+            'score': 0.1
+        }
+    }
+
+    transitions_music = {
+        'state': 'music',
+        '`What is your favorite song?`': {
+            '[[!{#LEM(rain), rainy}, #LEM(taco)]]': {
+                '`I love children\'s songs by Parry Gripp.`': 'start',
+            },
+            'error': {
+                '`Sorry, I don\'t know that song.`': 'movie'
+            }
+        }
+    }
+
+    transitions_movie = {
+        'state': 'movie',
+        '`What is your favorite movie?`': {
+            '[{#LEM(avenger), iron man, hulk}]': {
+                '`I love the Marvel Cinematic Universe.`': 'start',
+            },
+            'error': {
+                '`Sorry, I don\'t know that movie.`': 'music'
+            }
+        }
+    }
+
+    df = DialogueFlow('start', end_state='end')
+    df.load_transitions(transitions)
+    df.load_transitions(transitions_music)
+    df.load_transitions(transitions_movie)
+    return df
+
+
+def global_transition() -> DialogueFlow:
+    transitions = {
+        'state': 'start',
+        '`Hi there, how are you doing today?`': {
+            '[{good, fantastic}]': {
+                'state': 'good',
+                '`Glad to hear that.` #WHAT_ELSE': {
+                    '[#LEM(movie)]': 'movie',
+                    '[music]': 'music',
+                    'error': {
+                        'state': 'goodbye',
+                        '`Goodbye!`': 'end'
+                    }
+                }
+            },
+            'error': 'goodbye'
+        }
+    }
+
+    music_transitions = {
+        'state': 'music',
+        '`My favorite song is "Raining Tacos"! What\'s yours?`': {
+            'error': 'good'
+        }
+    }
+
+    movie_transitions = {
+        'state': 'movie',
+        '`My favorite movie is "Spider-Man: Homecoming"! What\'s yours?`': {
+            'error': 'good'
+        }
+    }
+
+    macros = {
+        'WHAT_ELSE': MacroWhatElse()
+    }
+
+    gloabl_transitions = {
+        '[{covid, corona, virus}]': {
+            'score': 0.5,
+            '`I hope you are OK.`': 'good'
+        },
+        '[{birthday}]': {
+            'score': 0.5,
+            '`Happy birthday to you!`': 'good'
+        }
+    }
+
+    df = DialogueFlow('start', end_state='end')
+    df.load_transitions(transitions)
+    df.load_transitions(music_transitions)
+    df.load_transitions(movie_transitions)
+    df.add_macros(macros)
+    df.load_global_nlu(gloabl_transitions)
+    return df
+
+
+class MacroWhatElse(Macro):
+    def run(self, ngrams: Ngrams, vars: Dict[str, Any], args: List[Any]):
+        vn = 'HAVE_TALK'
+        if vn in vars and vars[vn]:
+            return 'What else do you want to talk about?'
+        else:
+            vars[vn] = True
+            return 'What do you want to talk about?'
+
+
 if __name__ == '__main__':
     # state_reference().run()
-    advanced_macro().run()
+    # advanced_interaction().run()
+    # compound_states().run()
+    global_transition().run()
