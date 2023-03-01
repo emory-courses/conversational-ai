@@ -291,9 +291,9 @@ def load(df: DialogueFlow, varfile: str):
 
 
 if __name__ == '__main__':
-    state_reference().run()
+    # state_reference().run()
     # advanced_interaction().run()
     # compound_states().run()
     # global_transition().run()
     # save(visits(), 'resources/visits.pkl')
-    # load(visits(), 'resources/visits.pkl')
+    load(visits(), 'resources/visits.pkl')
