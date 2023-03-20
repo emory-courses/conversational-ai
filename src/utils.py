@@ -19,7 +19,7 @@ __author__ = 'Jinho D. Choi'
 import json
 import re
 from json import JSONDecodeError
-from typing import Dict, Any, List, Callable
+from typing import Dict, Any, List, Callable, Pattern
 
 import openai
 from emora_stdm import Macro, Ngrams
@@ -48,9 +48,7 @@ class MacroGPTJSON(Macro):
         examples = f'{self.full_ex} or {self.empty_ex} if unavailable' if self.empty_ex else self.full_ex
         prompt = f'{self.request} Respond in the JSON schema such as {examples}: {ngrams.raw_text().strip()}'
         output = gpt_completion(prompt)
-        m = self.check.search(output)
-        if not m: return False
-        output = m.group().strip()
+        if not output: return False
 
         try:
             d = json.loads(output)
@@ -62,6 +60,7 @@ class MacroGPTJSON(Macro):
             self.set_variables(vars, d)
         else:
             vars.update(d)
+
         return True
 
 
@@ -73,11 +72,15 @@ class MacroNLG(Macro):
         return self.generate(vars)
 
 
-def gpt_completion(input: str) -> str:
+def gpt_completion(input: str, regex: Pattern = None) -> str:
     response = openai.ChatCompletion.create(
         model=CHATGPT_MODEL,
         messages=[{'role': 'user', 'content': input}]
     )
-    return response['choices'][0]['message']['content'].strip()
+    output = response['choices'][0]['message']['content'].strip()
 
-# My office is at MSC W302F. My office hours are MW 4-5:30pm
+    if regex is not None:
+        m = regex.search(output)
+        output = m.group().strip() if m else None
+
+    return output
